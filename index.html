@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Billetterie Décentralisée</title>
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="top-bar">
+        <div class="top-bar-content">
+            <div class="logo">
+                <span>🎫</span>
+                <span class="logo-text">Billetterie</span>
+            </div>
+            <div class="wallet-info">
+                <div id="walletStatus" class="wallet-status disconnected">
+                    <span class="status-dot"></span>
+                    <span id="walletAddress">Non connecté</span>
+                </div>
+                <button id="connectWalletBtn" class="btn-secondary" onclick="connectWallet()">🦊 Connecter MetaMask</button>
+                <button id="disconnectWalletBtn" class="btn-disconnect" onclick="disconnectWallet()" style="display:none;">Déconnecter</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="wrapper">
+        <div class="hero-section">
+            <h1>Billetterie Blockchain</h1>
+            <p>Achetez et vendez vos billets en toute sécurité.<br>Transparent, décentralisé, sans intermédiaire.</p>
+            <div class="hero-features">
+                <div class="hero-feature">🔒 Sécurisé</div>
+                <div class="hero-feature">⚡ Instantané</div>
+                <div class="hero-feature">🌐 Décentralisé</div>
+            </div>
+        </div>
+
+        <div id="adminSection" style="display:none;">
+            <div class="section-title">
+                <span class="section-icon">🛠️</span>
+                <span>Espace Administrateur</span>
+            </div>
+
+            <div class="grid-2">
+                <div class="card">
+                    <div class="card-content">
+                        <h2>➕ Nouvel Événement</h2>
+                        <p>Créez et publiez vos événements sur la blockchain</p>
+
+                        <div class="form-group">
+                            <label class="form-label">Nom de l'événement</label>
+                            <input type="text" id="eventName" placeholder="Ex: Concert 2026">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Nombre de billets</label>
+                            <input type="number" id="eventMaxTickets" placeholder="Ex: 100" min="1">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Prix (ETH)</label>
+                            <input type="number" step="0.001" id="eventPrice" placeholder="Ex: 0.05" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Date de l'événement</label>
+                            <input type="date" id="eventDate">
+                        </div>
+                        <button class="btn-primary" onclick="addEvent()">🚀 Créer l'événement</button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-content">
+                        <h2>📥 Demandes d'Annulation</h2>
+                        <p>Gérez les remboursements en attente</p>
+                        <button class="btn-secondary" style="width:100%; margin-bottom:20px;" onclick="loadCancelRequests()">🔄 Rafraîchir</button>
+                        <ul id="cancelRequestsList">
+                            <li class="empty-state">
+                                <span>Cliquez sur Rafraîchir...</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="divider-text" id="adminDivider" style="display:none;">— Événements publiés —</div>
+
+        <div class="card">
+            <div class="card-header-row">
+                <div>
+                    <h2>📅 Événements Disponibles</h2>
+                    <p>Découvrez tous les événements à venir</p>
+                </div>
+                <button class="btn-secondary" onclick="loadEvents()">🔄 Rafraîchir</button>
+            </div>
+            <ul id="eventsList">
+                <li class="empty-state">
+                    <span>⏳ Connectez votre portefeuille pour voir les événements...</span>
+                </li>
+            </ul>
+        </div>
+
+        <div id="userSection" style="display:none;">
+            <div class="divider-text">— Vos billets —</div>
+            <div class="card">
+                <div class="card-header-row">
+                    <div>
+                        <h2>🎟️ Mon Portefeuille</h2>
+                        <p>Vos billets achetés</p>
+                    </div>
+                    <button class="btn-secondary" onclick="loadMyTickets()">🔄 Rafraîchir</button>
+                </div>
+                <ul id="myTicketsList">
+                    <li class="empty-state">
+                        <span>⏳ Chargement de vos billets...</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="footer">
+        <p>Billetterie Décentralisée &mdash; Smart Contract sur Ethereum</p>
+        <p class="footer-address">📄 <code id="contractAddressFooter"></code></p>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
